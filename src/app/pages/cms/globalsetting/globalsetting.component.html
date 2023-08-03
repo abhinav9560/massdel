@@ -1,0 +1,109 @@
+<nb-card>
+    <nb-card-header>Global Setting</nb-card-header>
+    <nb-card-body>
+        <form #newForm="ngForm" (ngSubmit)="newForm.valid && userSubmit(newForm.value)" class="form-horizontal">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+
+                    <div class="form-group">
+                        <label for="commision">Commision (%)</label>
+                        <input type="text" name="commision" [(ngModel)]="userData.commision" #commision="ngModel"
+                            nbInput fullWidth placeholder="commision" required maxlength="6" pattern="^[1-9]\d*$" onkeydown="return event.keyCode !== 190" autocomplete="off" (keydown.space)="$event.preventDefault();">
+                        <div *ngIf="commision.invalid && (commision.dirty || commision.touched) || newForm.submitted">
+                            <span class="error" *ngIf="commision.hasError('required')">Commision is required</span>
+                            <span class="error" *ngIf="commision.hasError('pattern')">Invalid Commision</span>
+                            <span class="error" *ngIf="commision.hasError('maxlength')">Max 6 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cancellationTime">Cancellation Time for Customer (In Min)</label>
+                        <input type="text" name="cancellationTime" [(ngModel)]="userData.cancellationTime"
+                            #cancellationTime="ngModel" nbInput fullWidth placeholder="cancellationTime" required maxlength="6" pattern="^[1-9]\d*$" onkeydown="return event.keyCode !== 190" autocomplete="off" (keydown.space)="$event.preventDefault();">
+                        <div
+                            *ngIf="cancellationTime.invalid && (cancellationTime.dirty || cancellationTime.touched) || newForm.submitted">
+                            <span class="error" *ngIf="cancellationTime.hasError('required')">cancellationTime is required</span>
+                            <span class="error" *ngIf="cancellationTime.hasError('pattern')">Invalid Cancellation Time</span>
+                            <span class="error" *ngIf="cancellationTime.hasError('maxlength')">Max 6 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="defaultRadius">Default Radius for Searching Provider (In KM)</label>
+                        <input type="text" name="defaultRadius" [(ngModel)]="userData.defaultRadius"
+                            #defaultRadius="ngModel" nbInput fullWidth placeholder="defaultRadius" required maxlength="6" pattern="^[1-9]\d*$" onkeydown="return event.keyCode !== 190" autocomplete="off" (keydown.space)="$event.preventDefault();">
+                        <div
+                            *ngIf="defaultRadius.invalid && (defaultRadius.dirty || defaultRadius.touched) || newForm.submitted">
+                            <span class="error" *ngIf="defaultRadius.hasError('required')">defaultRadius is required</span>
+                            <span class="error" *ngIf="defaultRadius.hasError('pattern')">Invalid Default Radius</span>
+                            <span class="error" *ngIf="defaultRadius.hasError('maxlength')">Max 6 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="referralAmountBy">Referral amount credited in sender's wallet</label>
+                        <input type="text" name="referralAmountBy" [(ngModel)]="userData.referralAmountBy" #referralAmountBy="ngModel"
+                            nbInput fullWidth placeholder="referralAmountBy" required maxlength="6" pattern="^[1-9]\d*$" onkeydown="return event.keyCode !== 190" autocomplete="off" (keydown.space)="$event.preventDefault();">
+                        <div *ngIf="referralAmountBy.invalid && (referralAmountBy.dirty || referralAmountBy.touched) || newForm.submitted">
+                            <span class="error" *ngIf="referralAmountBy.hasError('required')">Referral amount is required</span>
+                            <span class="error" *ngIf="referralAmountBy.hasError('pattern')">Invalid Referral amount</span>
+                            <span class="error" *ngIf="referralAmountBy.hasError('maxlength')">Max 6 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="referralAmountTo">Referral amount credited in reciever's wallet</label>
+                        <input type="text" name="referralAmountTo" [(ngModel)]="userData.referralAmountTo" #referralAmountTo="ngModel"
+                            nbInput fullWidth placeholder="referralAmountTo" required maxlength="6" pattern="^[1-9]\d*$" onkeydown="return event.keyCode !== 190" autocomplete="off" (keydown.space)="$event.preventDefault();">
+                        <div *ngIf="referralAmountTo.invalid && (referralAmountTo.dirty || referralAmountTo.touched) || newForm.submitted">
+                            <span class="error" *ngIf="referralAmountTo.hasError('required')">Referral amount is required</span>
+                            <span class="error" *ngIf="referralAmountTo.hasError('pattern')">Invalid Referral amount</span>
+                            <span class="error" *ngIf="referralAmountTo.hasError('maxlength')">Max 6 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="commision">Allow Payment Mode</label>
+
+                        <div class="row">
+                            <div class="col-lg-6 offset-lg-2">
+                                <input type="checkbox" class="checkbox" name="cod" id="cod" [(ngModel)]="userData.cod">
+                                <label for="cod" class="checkboxlabel">Cash On Delivery</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 offset-lg-2">
+                                <input type="checkbox" class="checkbox" name="online" id="online"
+                                    [(ngModel)]="userData.online">
+                                <label for="online" class="checkboxlabel">Online</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 offset-lg-2">
+                                <input type="checkbox" class="checkbox" name="wallet" id="wallet"
+                                    [(ngModel)]="userData.wallet">
+                                <label for="wallet" class="checkboxlabel">Wallet</label>
+                            </div>
+                        </div>
+                        <!-- <input type="number" name="commision" [(ngModel)]="userData.commision" #commision="ngModel"
+                            nbInput fullWidth placeholder="commision" required>
+                        <div *ngIf="commision.invalid && (commision.dirty || commision.touched) || newForm.submitted">
+                            <span class="error" *ngIf="commision.hasError('required')">Commision is required</span>
+                        </div> -->
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <button type="submit" [disabled]="!newForm.valid" nbButton status="success">Save </button>
+                    <button type="button" style="margin-left: 10px;" nbButton status="warning" (click)="goBack()">Go
+                        Back </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>

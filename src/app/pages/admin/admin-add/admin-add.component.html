@@ -1,0 +1,120 @@
+<nb-card>
+    <nb-card-header *ngIf="!id">Add Subadmin</nb-card-header>
+    <nb-card-header *ngIf="id">Edit Subadmin</nb-card-header>
+    <nb-card-body>
+        <form #newForm="ngForm" (ngSubmit)="newForm.valid && userSubmit(newForm.value)" class="form-horizontal">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" [(ngModel)]="userData.name" #name="ngModel" nbInput fullWidth
+                            placeholder="Name" minlength="3" maxlength="55" pattern="^[a-zA-Z0-9_ ]+$" required>
+                        <div *ngIf="name.invalid && (name.dirty || name.touched) || newForm.submitted">
+                            <span class="error" *ngIf="name.hasError('required')">Name is
+                                required.</span>
+                            <span class="error" *ngIf="name.hasError('pattern')">Invalid format name.</span>
+                            <span class="error text-danger" *ngIf="name.hasError('minlength')"> Name
+                                should be at least 3 characters long.</span>
+                            <span class="error text-danger" *ngIf="name.hasError('maxlength')"> Name
+                                should not exceed 55 characters.</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" name="email" [(ngModel)]="userData.email" #email="ngModel" nbInput fullWidth
+                            placeholder="Email" autocomplete="off" required
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                            (keydown.space)="$event.preventDefault();">
+                        <div *ngIf="email.invalid && (email.dirty || email.touched) || newForm.submitted">
+                            <span class="error" *ngIf="email.hasError('required')">Email is required.</span>
+                            <span class="error" *ngIf="email.hasError('pattern')">Email format is not
+                                correct.</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="access">Select Access</label>
+                        <nb-select name="access" [(selected)]="access" [(ngModel)]="userData.access"
+                             #access1="ngModel" placeholder="Access" (selectedChange)="accessChange($event)" fullWidth
+                            multiple required>
+                            <nb-option *ngFor="let doc of accessArray" [value]="doc.value">{{doc.name}}</nb-option>
+                        </nb-select>
+                        <div *ngIf="access1.invalid && (access1.dirty || access1.touched) || newForm.submitted">
+                            <span class="error" *ngIf="access1.hasError('required')">Access is required</span>
+                        </div>
+                    </div>
+
+
+
+                    <button size="small" *ngIf="!id" type="button" (click)="passwordGenerate()" nbButton status="info">Generate
+                        Password
+                    </button>
+
+
+                    <div class="form-group mt-2" *ngIf="!id">
+                        <!-- <label for="password">Password</label>
+                        <nb-form-field>
+                            <input type="password" name="password" [(ngModel)]="userData.password" #password="ngModel"
+                                nbInput fullWidth placeholder="Password" required autocomplete="off"
+                                pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$"
+                                (keydown.space)="$event.preventDefault();">
+                            <div *ngIf="password.invalid && (password.dirty || password.touched) || newForm.submitted">
+                                <span class="error" *ngIf="password.hasError('required')">Password is required</span>
+                                <span class="error" *ngIf="password.hasError('pattern')">Password Should have 1
+                                    Number 1 Capital letter and min 6 length </span>
+                            </div>
+                        </nb-form-field> -->
+
+                        
+                        <nb-form-field *ngIf="showPassword" >
+        
+                            <input type="text" name="password" [(ngModel)]="userData.password" #password="ngModel" nbInput fullWidth placeholder="Password" required pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$" >
+
+                            <!-- <input type="text" *ngIf="showPassword" name="password" [(ngModel)]="userData.password" #password="ngModel" nbInput fullWidth placeholder="Password" required pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$"  > -->
+
+                            <button nbSuffix nbButton type="button" ghost (click)="toggleShowPassword()">
+                                <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'" pack="eva"
+                                    [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
+                                </nb-icon>
+                            </button>
+                            
+                            <div *ngIf="password.invalid && (password.dirty || password.touched) || newForm.submitted">
+                                <span class="error" *ngIf="password.hasError('required')">Password is required</span>
+                                <span class="error" *ngIf="password.hasError('pattern')">Password Should have 1
+                                    Number 1 Capital 1 Small letter and min 6 length </span>
+                            </div>
+                        </nb-form-field>
+
+                        <nb-form-field *ngIf="!showPassword">
+                            <input type="password" name="password" [(ngModel)]="userData.password" #password="ngModel"
+                                nbInput fullWidth placeholder="Password" required pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$">
+                            <button nbSuffix nbButton ghost (click)="toggleShowPassword()">
+                                <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'" pack="eva"
+                                    [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
+                                </nb-icon>
+                            </button>
+                            <div *ngIf="password.invalid && (password.dirty || password.touched) || newForm.submitted">
+                                <span class="error" *ngIf="password.hasError('required')">Password is required</span>
+                                <span class="error" *ngIf="password.hasError('pattern')">Password Should have 1
+                                    Number 1 Capital 1 Small letter and min 6 length </span>
+                            </div>
+                        </nb-form-field>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <button type="submit" [disabled]="!newForm.valid" nbButton status="success">Save </button>
+                    <button type="button" style="margin-left: 10px;" nbButton status="warning" (click)="goBack()">Go
+                        Back </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>

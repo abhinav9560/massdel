@@ -1,0 +1,124 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>Customer Table <nb-icon icon="award-outline"></nb-icon>
+                </h5>
+            </div>
+            <div class="col-lg-6">
+                <button class="float-right" size="small" [routerLink]="['/customer/add']" nbButton status="info">Add
+                    <nb-icon icon="plus-circle-outline"></nb-icon>
+                </button>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-lg-4">
+                <nb-form-field>
+                    <input [(ngModel)]="searchItem.item" (keyup)="searchEvent(searchItem.item)" required
+                        #search_item="ngModel" name="search_item" type="text" nbInput placeholder="Type to Search">
+                </nb-form-field>
+            </div>
+            <div class="col-lg-6">
+                <div style="">
+                    <input nbInput readonly name="start" [(ngModel)]="dateRange.start" placeholder="Start Date"
+                        [nbDatepicker]="dateTimePicker1" style="width: 30%;">
+                    <nb-datepicker #dateTimePicker1 [max]="max"></nb-datepicker>
+
+                    <input nbInput readonly name="end" [(ngModel)]="dateRange.end" placeholder="End Date"
+                        [nbDatepicker]="dateTimePicker2" style="width: 30%;">
+                    <nb-datepicker #dateTimePicker2 [max]="max"></nb-datepicker>
+
+                    <button type="submit" nbButton (click)="dateRangeChange()" style="margin-bottom: 4px;">
+                        Search
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-2" style="    display: inline-flex;">
+                <button type="button" nbButton (click)="reset()">
+                    Reset
+                </button>
+                <button type="button" nbButton status="success" (click)="export()">
+                    Export
+                </button>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="box-body">
+
+            <div class="" style="display: inline-flex;">
+                <button type="button" [disabled]="checkedArray.length<1" nbButton status="success"
+                    (click)="statusChange(1)"> Active </button>
+                <button type="button" [disabled]="checkedArray.length<1" nbButton status="warning"
+                    (click)="statusChange(0)"> Deactive </button>
+                <button type="button" [disabled]="checkedArray.length<1" nbButton status="danger"
+                    (click)="multiDelete()"> Delete </button>
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr class="success">
+                        <th>Select All <input type="checkbox" name="checkAll" [(ngModel)]="checkAll"
+                                (ngModelChange)="checkAllChange()"></th>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <!-- <th>Email</th> -->
+                        <th>Mobile Number</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let users of data.data | paginate: { itemsPerPage: 8, currentPage:data.pageNo,totalItems:data.totalCount };let i = index">
+                        <td>
+                            <input type="checkbox" name="check" [(ngModel)]="users.isChecked"
+                                (ngModelChange)="checkChange()">
+                        </td>
+                        <td>
+                            {{data.size *(data.pageNo-1)+i+1}}
+                        </td>
+                        <td>{{users.name }}</td>
+                        <!-- <td>{{users.email}}</td> -->
+                        <td>{{users.mobile}}</td>
+                        <td>
+                            <button size="tiny" *ngIf="users.status==0" (click)="ActiveUser(users._id,i)" type="button"
+                                nbButton status="danger">Inactive </button>
+                            <button size="tiny" *ngIf="users.status==1" (click)="InactiveUser(users._id,i)"
+                                type="button" nbButton status="success">Active </button>
+                        </td>
+                        <td>
+                            <button size="tiny" [routerLink]="['/customer/view',users._id]" nbButton
+                                status="warning">Edit
+                            </button>
+                            <button size="tiny" nbButton status="danger" (click)="deleteUser(users._id,i)">Delete
+                            </button>
+
+                            <button size="tiny" nbButton status="info" (click)="changePassword(users._id,dialog)">Change
+                                Password
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+    </nb-card-body>
+</nb-card>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>Change Password</nb-card-header>
+        <nb-card-body>
+            <nb-form-field>
+                <input type="password" [(ngModel)]="password" required #search_item="ngModel" name="search_item" nbInput
+                    placeholder="New Password">
+            </nb-form-field>
+
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton status="info" (click)="changePass()">Save</button>
+            <button nbButton status="danger" (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>

@@ -1,0 +1,34 @@
+<nb-card>
+    <nb-card-header>Profile</nb-card-header>
+    <nb-card-body>
+
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" [(ngModel)]="userData.name" #name="ngModel" nbInput fullWidth
+                        placeholder="Name" required disabled>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" name="email" [(ngModel)]="userData.email" #email="ngModel" nbInput fullWidth
+                        placeholder="Email" disabled pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-4 offset-lg-4">
+
+                <button type="button" style="margin-left: 10px;" nbButton status="warning" (click)="goBack()">Go
+                    Back </button>
+            </div>
+        </div>
+
+    </nb-card-body>
+</nb-card>

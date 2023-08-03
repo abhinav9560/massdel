@@ -1,0 +1,96 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>Wallet Table <nb-icon icon="person-outline"></nb-icon>
+                </h5>
+            </div>
+            <div class="col-lg-6">
+                <button class="float-right" size="small" [routerLink]="['/wallet/entry']" nbButton status="info">Manual Entry
+                    <nb-icon icon="plus-circle-outline"></nb-icon>
+                </button>
+            </div>
+        </div>
+     
+        <div class="row mt-3">
+            <div class="col-lg-5">
+                <nb-form-field>
+                    <!-- <form  #newUserForm="ngForm" (ngSubmit)="!newUserForm.invalid && searchEvent(searchItem.item)"> -->
+                    <input [(ngModel)]="searchItem.item" (keyup)="searchEvent(searchItem.item)" required
+                        #search_item="ngModel" name="search_item" type="text" nbInput placeholder="Type to Search">
+                    <!-- </form>  -->
+                </nb-form-field>
+            </div>
+            <div class="col-lg-5">
+
+            </div>
+
+            <div class="col-lg-1">
+                <button type="button" nbButton (click)="reset()">
+                    Reset
+                </button>
+            </div>
+        </div>
+
+
+    </nb-card-header>
+    <nb-card-body>
+        <div class="box-body">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr class="success">
+                        <th>S.No</th>
+                        <th>Amount</th>
+                        <th>Image</th>
+                        <th>User Name</th>
+                        <th>User Type</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let users of data.data | paginate: { itemsPerPage: 8, currentPage:data.pageNo,totalItems:data.totalCount };let i = index">
+                        <td>
+                            {{data.size *(data.pageNo-1)+i+1}}
+                        </td>
+                        <td>{{users.amount }}</td>
+                        <td>
+                            <a href="{{data.imageUrl + users.image}}" target="_blank">
+                            <img *ngIf="users.image" src="{{data.imageUrl + users.image}}" alt="User profile picture"
+                                class="img-thumbnail" style="width: 90px;">
+                            </a>
+                            <img *ngIf="!users.image" src="{{globals.apiUrl}}public/uploads/images/Noimage.jpg"
+                                alt="Information not available">
+                        </td>
+                        <td>{{users?.userId?.name}}</td>
+                        <td>
+                            <span *ngIf="users?.userId?.role_id == 4">Customer</span>
+                            <span *ngIf="users?.userId?.role_id == 3">Service Provider</span>
+                        </td>
+                        <td>
+                            <button size="tiny" *ngIf="users.status==0" type="button" nbButton status="warning">Pending
+                            </button>
+                            <button size="tiny" *ngIf="users.status==1" type="button" nbButton status="success">Approved
+                            </button>
+                            <button size="tiny" *ngIf="users.status==2" type="button" nbButton status="danger">Rejected
+                            </button>
+                        </td>
+                        <td>
+
+                            <button size="tiny" [disabled]="users.status != 0" nbButton status="success"
+                                (click)="approved(users._id,i)">Approve </button>
+                            <button size="tiny" [disabled]="users.status != 0" nbButton status="danger"
+                                (click)="reject(users._id,i)">Reject </button>
+                            <span *ngIf="users.adminId && users.status != 0">By - {{users?.adminId?.name}} </span>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+
+    </nb-card-body>
+</nb-card>

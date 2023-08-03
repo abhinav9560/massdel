@@ -1,0 +1,64 @@
+<nb-card>
+    <nb-card-header>Add Email Template</nb-card-header>
+    <nb-card-body>
+        <form #newForm="ngForm" (ngSubmit)="newForm.valid && userSubmit(newForm.value)" class="form-horizontal">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+
+
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" [(ngModel)]="userData.name" #name="ngModel" nbInput fullWidth
+                            placeholder="Name" required>
+                        <div *ngIf="name.invalid && (name.dirty || name.touched) || newForm.submitted">
+                            <span class="error" *ngIf="name.hasError('required')">Name is required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="slug">Slug</label>
+                        <input type="text" name="slug" [(ngModel)]="userData.slug" #slug="ngModel" nbInput fullWidth
+                            placeholder="Slug" required>
+                        <div *ngIf="slug.invalid && (slug.dirty || slug.touched) || newForm.submitted">
+                            <span class="error" *ngIf="slug.hasError('required')">Slug is required</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" name="subject" [(ngModel)]="userData.subject" #subject="ngModel" nbInput
+                            fullWidth placeholder="Subject" required>
+                        <div *ngIf="subject.invalid && (subject.dirty || subject.touched) || newForm.submitted">
+                            <span class="error" *ngIf="subject.hasError('required')">Subject is required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <!-- <input type="text" name="answer" [(ngModel)]="userData.answer" #answer="ngModel" nbInput
+                            fullWidth placeholder="Name" required> -->
+                        <angular-editor [placeholder]="'Type here...'" [config]="editorConfig" name="description"
+                            [(ngModel)]="userData.description" #description="ngModel"  minlength="3" maxlength="500"></angular-editor>
+
+                        <div
+                            *ngIf="description.invalid && (description.dirty || description.touched) || newForm.submitted">
+                            <span class="error" *ngIf="description.hasError('required')">Description is required</span>
+                            <span class="error" *ngIf="description.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="description.hasError('maxlength')">Max 500 Char</span>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <button type="submit" [disabled]="!newForm.valid" nbButton status="success">Save </button>
+                    <button type="button" style="margin-left: 10px;" nbButton status="warning" (click)="goBack()">Go
+                        Back </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>

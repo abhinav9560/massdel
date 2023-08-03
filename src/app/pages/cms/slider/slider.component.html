@@ -1,0 +1,86 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>Slider Table <nb-icon icon="person-outline"></nb-icon>
+                </h5>
+            </div>
+            <div class="col-lg-6">
+                <button class="float-right" size="small" [routerLink]="['/slider/add']" nbButton status="info">Add
+                    <nb-icon icon="plus-circle-outline"></nb-icon>
+                </button>
+            </div>
+        </div>
+        <!-- style="margin-top: 8px;" -->
+        <div class="row mt-3">
+            <div class="col-lg-5">
+                <nb-form-field>
+                    <!-- <form  #newUserForm="ngForm" (ngSubmit)="!newUserForm.invalid && searchEvent(searchItem.item)"> -->
+                    <input [(ngModel)]="searchItem.item" (keyup)="searchEvent(searchItem.item)" required
+                        #search_item="ngModel" name="search_item" type="text" nbInput placeholder="Type to Search">
+
+                    <!-- </form>  -->
+                </nb-form-field>
+            </div>
+            <div class="col-lg-5">
+
+            </div>
+
+            <div class="col-lg-1">
+                <!-- <button type="button" nbButton (click)="reset()">
+                    Reset
+                </button> -->
+            </div>
+        </div>
+
+
+    </nb-card-header>
+    <nb-card-body>
+        <div class="box-body">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr class="success">
+                        <th>S.No</th>
+                        <th>Image</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let users of data.data | paginate: { itemsPerPage: 8, currentPage:data.pageNo,totalItems:data.totalCount };let i = index">
+                        <td>
+                            {{data.size *(data.pageNo-1)+i+1}}
+                        </td>
+                      
+                        <td>
+                            <img *ngIf="users.image" src="{{data.imageUrl + users.image}}" alt="User profile picture"
+                                class="img-thumbnail" style="width: 90px;">
+                            <img *ngIf="!users.image" src="{{globals.apiUrl}}public/uploads/images/Noimage.jpg"
+                                alt="Information not available">
+                        </td>
+                        <td>
+                            <button size="tiny" *ngIf="users.status==0" (click)="ActiveUser(users._id,i)" type="button"
+                                nbButton status="danger">Inactive </button>
+                            <button size="tiny" *ngIf="users.status==1" (click)="InactiveUser(users._id,i)"
+                                type="button" nbButton status="success">Active </button>
+                        </td>
+                        <td>
+
+                            <button size="tiny" [routerLink]="['/slider/view',users._id]" nbButton status="warning">Edit
+                            </button>
+
+                            <button size="tiny" nbButton status="danger" (click)="deleteUser(users._id,i)">Delete
+                            </button>
+
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+
+    </nb-card-body>
+</nb-card>

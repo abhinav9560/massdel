@@ -1,0 +1,47 @@
+<nb-card>
+    <nb-card-header>Add Slider</nb-card-header>
+    <nb-card-body>
+        <form #newForm="ngForm" (ngSubmit)="newForm.valid && userSubmit(newForm.value)" class="form-horizontal">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+
+
+                    <div class="form-group" *ngIf="userData.image">
+                        <label for="image">Image</label>
+                        <input type="file" name="image" [(ngModel)]="image1" #image="ngModel" nbInput fullWidth
+                            placeholder="Name" accept="image/x-png,image/jpeg,image/jpg" (change)="uploadFile($event)">
+                        <div *ngIf="image.invalid && (image.dirty || image.touched) || newForm.submitted">
+                            <span class="error" *ngIf="image.hasError('required')">Image is required</span>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <img *ngIf="userData.image" src="{{imageUrl + imageName}}" alt="User profile picture"
+                            class="img-thumbnail" style="width: 110px;">
+                    </div>
+
+                    <div class="form-group" *ngIf="!userData.image">
+                        <label for="image">Image</label>
+                        <input type="file" name="image" [(ngModel)]="image1" #image="ngModel" nbInput fullWidth
+                            placeholder="Name" required accept="image/x-png,image/jpeg,image/jpg"
+                            (change)="uploadFile($event)">
+                        <div *ngIf="image.invalid && (image.dirty || image.touched) || newForm.submitted">
+                            <span class="error" *ngIf="image.hasError('required')">Image is required</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <button type="submit" [disabled]="!newForm.valid || canNotEdit" nbButton status="success">Save
+                    </button>
+                    <button type="button" style="margin-left: 10px;" nbButton status="warning" (click)="goBack()">Go
+                        Back </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>

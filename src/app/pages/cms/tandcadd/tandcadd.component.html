@@ -1,0 +1,75 @@
+<nb-card>
+    <nb-card-header *ngIf="id">Edit CMS</nb-card-header>
+    <nb-card-header *ngIf="!id">Add CMS</nb-card-header>
+    <nb-card-body>
+        <form #newForm="ngForm" (ngSubmit)="newForm.valid && userSubmit(newForm.value)" class="form-horizontal">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+
+                    <div class="form-group">
+                        <label for="answer">Title</label>
+                        <input type="text" name="title" [(ngModel)]="userData.title"
+                            #title="ngModel" required minlength="3" maxlength="50" class="form-control">
+                        <div
+                            *ngIf="title.invalid && (title.dirty || title.touched) || newForm.submitted">
+                            <span class="error" *ngIf="title.hasError('required')">(English) is
+                                required</span>
+                            <span class="error" *ngIf="title.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="title.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="answer">Slug</label>
+                        <input type="text" name="slug" [(ngModel)]="userData.slug"
+                            #slug="ngModel" required minlength="3" maxlength="50" class="form-control">
+                        <div
+                            *ngIf="slug.invalid && (slug.dirty || slug.touched) || newForm.submitted">
+                            <span class="error" *ngIf="slug.hasError('required')">(English) is
+                                required</span>
+                            <span class="error" *ngIf="slug.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="slug.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="answer">Description (English)</label>
+                        <angular-editor [placeholder]="'Type here...'" name="description_english"
+                            [(ngModel)]="userData.description_english" #description_english="ngModel" required
+                            minlength="3" maxlength="5000" [config]="editorConfig"></angular-editor>
+                        <div
+                            *ngIf="description_english.invalid && (description_english.dirty || description_english.touched) || newForm.submitted">
+                            <span class="error" *ngIf="description_english.hasError('required')">(English) Description is
+                                required</span>
+                            <span class="error" *ngIf="description_english.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="description_english.hasError('maxlength')">Max 5000 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="answer">Description (Aramaic)</label>
+                        <angular-editor [placeholder]="'Type here...'" name="description_aramaic"
+                            [(ngModel)]="userData.description_aramaic" #description_aramaic="ngModel" required
+                            minlength="3" maxlength="5000" [config]="editorConfig"></angular-editor>
+                        <div
+                            *ngIf="description_aramaic.invalid && (description_aramaic.dirty || description_aramaic.touched) || newForm.submitted">
+                            <span class="error" *ngIf="description_aramaic.hasError('required')">Description (Aramaic)
+                                is required</span>
+                            <span class="error" *ngIf="description_aramaic.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="description_aramaic.hasError('maxlength')">Max 5000 Char</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <button type="submit" [disabled]="!newForm.valid" nbButton status="success">Save </button>
+                    <button type="button" style="margin-left: 10px;" nbButton status="warning" (click)="goBack()">Go
+                        Back </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>

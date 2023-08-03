@@ -1,0 +1,118 @@
+<nb-card>
+    <nb-card-header *ngIf="!id">Add Promocode</nb-card-header>
+    <nb-card-header *ngIf="id">Edit Promocode</nb-card-header>
+    <nb-card-body>
+        <form #newForm="ngForm" (ngSubmit)="newForm.valid && userSubmit(newForm.value)" class="form-horizontal">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+
+                    <div class="form-group">
+                        <label for="type">Select Type</label>
+                        <nb-select name="type"  [(ngModel)]="userData.type" #type1="ngModel"
+                            placeholder="Access" (selectedChange)="accessChange($event)" fullWidth required>
+                            <nb-option *ngFor="let doc of typeArray" [value]="doc">{{doc}}</nb-option>
+                        </nb-select>
+                        <div *ngIf="type1.invalid && (type1.dirty || type1.touched) || newForm.submitted">
+                            <span class="error" *ngIf="type1.hasError('required')">Type is required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" [(ngModel)]="userData.name" #name="ngModel" nbInput fullWidth
+                            placeholder="Name" required minlength="3" maxlength="50">
+                        <div *ngIf="name.invalid && (name.dirty || name.touched) || newForm.submitted">
+                            <span class="error" *ngIf="name.hasError('required')">Name is
+                                required</span>
+                            <span class="error" *ngIf="name.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="name.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="couponCode">Coupon Code</label>
+                        <input type="text" name="couponCode" [(ngModel)]="userData.couponCode" #couponCode="ngModel"
+                            nbInput fullWidth placeholder="Coupon Code" required pattern="^[A-Z0-9]{3}(?:List)?$" minlength="3" maxlength="50">
+                        <div
+                            *ngIf="couponCode.invalid && (couponCode.dirty || couponCode.touched) || newForm.submitted">
+                            <span class="error" *ngIf="couponCode.hasError('required')">Coupon Code is
+                                required</span>
+                            <span class="error" *ngIf="couponCode.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="couponCode.hasError('pattern')">Invalid Coupon Code</span>
+                            <span class="error" *ngIf="couponCode.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="discount">Discount</label>
+                        <input type="text" name="discount" [(ngModel)]="userData.discount" #discount="ngModel" nbInput
+                            fullWidth placeholder="Discount" required maxlength="6" pattern="^[1-9]\d*$"
+                            onkeydown="return event.keyCode !== 190" autocomplete="off"
+                            (keydown.space)="$event.preventDefault();">
+                        <div *ngIf="discount.invalid && (discount.dirty || discount.touched) || newForm.submitted">
+                            <span class="error" *ngIf="discount.hasError('required')">Discount is
+                                required</span>
+                            <span class="error" *ngIf="discount.hasError('pattern')">Invalid Discount</span>
+                            <span class="error" *ngIf="discount.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="discount.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="limitPerUser">Limit Per User</label>
+                        <input type="text" name="limitPerUser" [(ngModel)]="userData.limitPerUser"
+                            #limitPerUser="ngModel" nbInput fullWidth placeholder="Limit Per User" required
+                            maxlength="6" pattern="^[1-9]\d*$" onkeydown="return event.keyCode !== 190"
+                            autocomplete="off" (keydown.space)="$event.preventDefault();">
+                        <div
+                            *ngIf="limitPerUser.invalid && (limitPerUser.dirty || limitPerUser.touched) || newForm.submitted">
+                            <span class="error" *ngIf="limitPerUser.hasError('required')">Limit Per User is
+                                required</span>
+                            <span class="error" *ngIf="limitPerUser.hasError('pattern')">Discount Limit Per User</span>
+                            <span class="error" *ngIf="limitPerUser.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="limitPerUser.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input nbInput name="startDate" [(ngModel)]="userData.startDate" placeholder="Start Date"
+                            [nbDatepicker]="dateTimePicker1" #startDate="ngModel" fullWidth readonly>
+                        <nb-datepicker #dateTimePicker1 ></nb-datepicker>
+                        <div *ngIf="startDate.invalid && (startDate.dirty || startDate.touched) || newForm.submitted">
+                            <span class="error" *ngIf="startDate.hasError('required')">Start Date is
+                                required</span>
+                            <span class="error" *ngIf="startDate.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="startDate.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="endDate">End Date</label>
+                        <input nbInput name="endDate" [(ngModel)]="userData.endDate" placeholder="End Date"
+                            [nbDatepicker]="dateTimePicker2" #endDate="ngModel" fullWidth readonly>
+                        <nb-datepicker #dateTimePicker2 [min]="max"></nb-datepicker>
+                        <div *ngIf="endDate.invalid && (endDate.dirty || endDate.touched) || newForm.submitted">
+                            <span class="error" *ngIf="endDate.hasError('required')">End Date is
+                                required</span>
+                            <span class="error" *ngIf="endDate.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="endDate.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <button type="submit" [disabled]="!newForm.valid" nbButton status="success">Save </button>
+                    <button type="button" style="margin-left: 10px;" nbButton status="warning" (click)="goBack()">Go
+                        Back </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>

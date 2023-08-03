@@ -1,0 +1,188 @@
+<nb-card>
+    <nb-card-header>Create Booking</nb-card-header>
+    <nb-card-body>
+        <form #newForm="ngForm" class="form-horizontal">
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="bookingId">Select Category</label>
+                        <nb-select placeholder="Select Category" name="category" [(ngModel)]="category" required
+                            (ngModelChange)="getSubcat($event)" fullWidth>
+                            <nb-option *ngFor="let cat of categoryArray" value="{{cat._id}}">{{cat.name_english}} -
+                                {{cat.name_aramaic}}</nb-option>
+                        </nb-select>
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="bookingId">Select Sub Category</label>
+                        <nb-select placeholder="Select Sub Category" name="subCategory" [(ngModel)]="subCategory"
+                            required fullWidth>
+                            <nb-option *ngFor="let cat of subCategoryArray" value="{{cat._id}}">{{cat.name_english}} -
+                                {{cat.name_aramaic}}</nb-option>
+                        </nb-select>
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="address">Address (Please select from google suggestion)</label>
+                        <input ngx-google-places-autocomplete name="address" type="text"
+                            (onAddressChange)="addressSelect($event)" [(ngModel)]="address" required maxlength="100"
+                            nbInput fullWidth placeholder="Addres">
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+
+                        <label for="bookingId">Search Customer With Name</label>
+                        <input [(ngModel)]="customertemp" [ngModelOptions]="{standalone: true}" fullWidth
+                            (ngModelChange)="onModelChange($event)" nbInput type="text" placeholder="Search Customer"
+                            [nbAutocomplete]="autoNgModel" />
+
+                        <nb-autocomplete #autoNgModel (selectedChange)="onSelectionChange($event)">
+
+                            <nb-option *ngFor="let option of customerData" [value]="option">
+                                {{ option.name }}
+                            </nb-option>
+
+                        </nb-autocomplete>
+
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="bookingId">Customer Name</label>
+                        <input type="text" name="cname" [(ngModel)]="customer.name" nbInput fullWidth
+                            placeholder="Customer Name" disabled>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="date">Customer Mobile</label>
+                        <input type="text" name="cmobile" [(ngModel)]="customer.mobile" nbInput fullWidth
+                            placeholder="Customer Mobile" disabled>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+
+                        <label for="bookingId">Search Provider With Name</label>
+                        <input [(ngModel)]="providertemp" [ngModelOptions]="{standalone: true}" fullWidth
+                            (ngModelChange)="onModelChange1($event)" nbInput type="text" placeholder="Search Provider"
+                            [nbAutocomplete]="autoNgModel1" />
+
+                        <nb-autocomplete #autoNgModel1 (selectedChange)="onSelectionChange1($event)">
+
+                            <nb-option *ngFor="let option of providerData" [value]="option">
+                                {{ option.name }}
+                            </nb-option>
+
+                        </nb-autocomplete>
+
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="bookingId">Provider Name</label>
+                        <input type="text" name="pname" [(ngModel)]="provider.name" nbInput fullWidth
+                            placeholder="Provider Name" disabled>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="date">Provider Mobile</label>
+                        <input type="text" name="pmobile" [(ngModel)]="provider.mobile" nbInput fullWidth
+                            placeholder="Provider Mobile" disabled>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="bookingId">Payment Mode</label>
+                        <nb-select placeholder="Payment Mode" name="paymentMode" [(ngModel)]="paymentMode" required
+                            fullWidth>
+                            <nb-option *ngFor="let type of paymentModeArray" value="{{type.value}}">{{type.name}}
+                            </nb-option>
+                        </nb-select>
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="bookingId">Type</label>
+                        <nb-select placeholder="Type" name="type" [(ngModel)]="type" required fullWidth>
+                            <nb-option *ngFor="let type of typeArray" value="{{type.value}}">{{type.name}}
+                            </nb-option>
+                        </nb-select>
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div *ngIf="type=='scheduled'">
+                        <label for="dob">Date of birth</label>
+                        <div class="input-group">
+                            <input nbInput readonly placeholder="Pick Date" name="date" id="date"
+                                style="width: 90%;max-width: 100%;" [(ngModel)]="date" [nbDatepicker]="dateTimePicker">
+                            <nb-datepicker #dateTimePicker></nb-datepicker>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="openDob()" type="button"
+                                    id="button-addon2">
+                                    <nb-icon icon="calendar-outline"></nb-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="answer_aramaic">Additional Notes</label>
+
+                        <textarea cols="30" rows="3" name="additionalNotes" [(ngModel)]="additionalNotes" nbInput
+                            fullWidth placeholder="Additional Notes" required minlength="3" maxlength="1000"></textarea>
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="images">Image</label>
+                        <input type="file" name="images" [(ngModel)]="file" nbInput fullWidth placeholder="images"
+                            accept="image/x-png,image/jpeg,image/jpg" (change)="uploadFile($event)">
+                    </div>
+                </div>
+                <div class="col-lg-4">
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <button nbButton status="success" type="button"  (click)="submit()">Save </button>
+                    <button style="margin-left: 10px;" type="button" nbButton status="warning" (click)="goBack()">Go
+                        Back </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>

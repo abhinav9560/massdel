@@ -1,0 +1,52 @@
+<nb-card>
+    <nb-card-header *ngIf="!id">Add City</nb-card-header>
+    <nb-card-header *ngIf="id">View City</nb-card-header>
+    <nb-card-body>
+        <form #newForm="ngForm" (ngSubmit)="newForm.valid && userSubmit(newForm.value)" class="form-horizontal">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+
+                    <div class="form-group">
+                        <label for="name_english">Name (English)</label>
+                        <input type="text" name="name_english" [(ngModel)]="userData.name_english"
+                            #name_english="ngModel" nbInput fullWidth placeholder="Name (English)" required
+                            minlength="3" maxlength="50" pattern="^[a-zA-Z_ ]+$">
+                        <div
+                            *ngIf="name_english.invalid && (name_english.dirty || name_english.touched) || newForm.submitted">
+                            <span class="error" *ngIf="name_english.hasError('required')">Name (English) is
+                                required</span>
+                            <span class="error" *ngIf="name_english.hasError('pattern')">Invalid Name (English)</span>
+                            <span class="error" *ngIf="name_english.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="name_english.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name_aramaic">Name (Aramaic)</label>
+                        <input type="text" name="name_aramaic" [(ngModel)]="userData.name_aramaic"
+                            #name_aramaic="ngModel" nbInput fullWidth placeholder="Name (Aramaic)" required
+                            minlength="3" maxlength="50">
+                        <div
+                            *ngIf="name_aramaic.invalid && (name_aramaic.dirty || name_aramaic.touched) || newForm.submitted">
+                            <span class="error" *ngIf="name_aramaic.hasError('required')">Name (Aramaic) is
+                                required</span>
+                            <span class="error" *ngIf="name_aramaic.hasError('pattern')">Invalid Name (Aramaic)</span>
+                            <span class="error" *ngIf="name_aramaic.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="name_aramaic.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <button type="submit" [disabled]="!newForm.valid || canNotEdit" nbButton status="success">Save
+                    </button>
+                    <button type="button" style="margin-left: 10px;" nbButton status="warning" (click)="goBack()">Go
+                        Back </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>

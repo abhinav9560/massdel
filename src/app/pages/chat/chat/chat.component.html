@@ -1,0 +1,64 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>Chat <nb-icon icon="person-outline"></nb-icon>
+                </h5>
+            </div>
+            <div class="col-lg-5">
+                <!-- <nb-form-field>
+                    <input [(ngModel)]="searchItem.item" (keyup)="searchEvent(searchItem.item)" required
+                        #search_item="ngModel" name="search_item" type="text" nbInput placeholder="Type to Search">
+                </nb-form-field> -->
+                <button type="button" style="float: right;" nbButton status="primary" (click)="refresh()">
+                    <nb-icon icon="refresh-outline"></nb-icon>
+                </button>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="box-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="success">
+                                <th>Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data.data">
+                                <td (click)="showChat(item?._id,item?.user[0]?.userId)">{{item?.user[0]?.userId?.name}}
+                                </td>
+                                <td>
+                                    <button size="tiny" nbButton outline status="warning">New</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <nb-chat scrollBottom="true" size="medium" *ngIf="showChatBlock" title="{{userDetail.name}}">
+
+                    <nb-chat-message *ngFor="let msg of message" [type]="msg.temp"
+                        [message]="msg.type==0?msg.message:chatUrl+msg.message"
+                        [reply]="msg.senderId._id == adminId?true:false"
+                        [files]="[ { url: chatUrl+msg.message ,type: 'image/jpeg'} ]" [date]="msg.createdAt">
+                    </nb-chat-message>
+
+                    <!-- type="msg.type==0?text:file" -->
+                    <!-- <nb-chat-message *ngFor="let msg of message" [type]="text" [message]="msg.message"
+                     [reply]="msg.senderId._id == adminId?true:false" [date]="msg.createdAt">
+                    </nb-chat-message> -->
+
+                    <nb-chat-form (send)="sendMessage($event)" [dropFiles]="true">
+                    </nb-chat-form>
+                </nb-chat>
+            </div>
+
+        </div>
+    </nb-card-body>
+</nb-card>

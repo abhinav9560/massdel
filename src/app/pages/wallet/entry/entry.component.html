@@ -1,0 +1,212 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>Manual Entry (Wallet) <nb-icon icon="award-outline"></nb-icon>
+                </h5>
+            </div>
+            <div class="col-lg-6">
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-lg-5">
+                <nb-form-field>
+                    <label for="type">Search</label>
+                    <input [(ngModel)]="searchItem.item" (keyup)="searchEvent(searchItem.item)" required
+                        #search_item="ngModel" name="search_item" type="text" nbInput placeholder="Type to Search">
+
+                </nb-form-field>
+            </div>
+            <div class="col-lg-5">
+                <nb-form-field>
+                    <label for="type">User Type</label>
+                    <nb-select fullWidth placeholder="Select Showcase" [(selected)]="type"
+                        (selectedChange)="filterChange($event)">
+                        <nb-option value="0">All</nb-option>
+                        <nb-option value="1">Customer</nb-option>
+                        <nb-option value="2">Service Provider</nb-option>
+                    </nb-select>
+
+                </nb-form-field>
+            </div>
+
+            <div class="col-lg-1">
+                <button type="button" nbButton (click)="reset()">
+                    Reset
+                </button>
+            </div>
+
+        </div>
+
+
+    </nb-card-header>
+
+    <nb-card-body>
+
+        <nb-tabset fullWidth=true (changeTab)=changeTab($event)>
+            <nb-tab tabTitle="CUSTOMER">
+
+                <div class="box-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="success">
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>User Type</th>
+
+                                <th>Mobile Number</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                                <th>History</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let users of data.data | paginate: { itemsPerPage: 8, currentPage:data.pageNo,totalItems:data.totalCount };let i = index">
+                                <td>
+                                    {{data.size *(data.pageNo-1)+i+1}}
+                                </td>
+                                <td>{{users.name }}</td>
+                                <td>
+                                    <span *ngIf="users.role_id ==3">Service Provider</span>
+                                    <span *ngIf="users.role_id ==4">Customer</span>
+                                </td>
+
+                                <td>{{users.mobile}}</td>
+                                <td>{{users.wallet}}</td>
+                                <td>
+                                    <button size="tiny" *ngIf="users.status==0" type="button" nbButton
+                                        status="danger">Inactive
+                                    </button>
+                                    <button size="tiny" *ngIf="users.status==1" type="button" nbButton
+                                        status="success">Active
+                                    </button>
+                                </td>
+                                <td>
+
+                                    <button size="tiny" nbButton status="warning"
+                                        (click)="credit(dialog,'debit',users._id)">Debit
+                                    </button>
+
+                                    <button size="tiny" nbButton status="info"
+                                        (click)="credit(dialog,'credit',users._id)">Credit
+                                    </button>
+
+                                </td>
+                                <td>
+                                    <button size="tiny" nbButton [routerLink]="['/wallet/transaction',users._id]"
+                                        status="primary">Transaction </button>
+
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+            </nb-tab>
+            <nb-tab tabTitle="PROVIDER">
+
+                <div class="box-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="success">
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>User Type</th>
+
+                                <th>Mobile Number</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                                <th>History</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let users of data.data | paginate: { itemsPerPage: 8, currentPage:data.pageNo,totalItems:data.totalCount };let i = index">
+                                <td>
+                                    {{data.size *(data.pageNo-1)+i+1}}
+                                </td>
+                                <td>{{users.name }}</td>
+                                <td>
+                                    <span *ngIf="users.role_id ==3">Service Provider</span>
+                                    <span *ngIf="users.role_id ==4">Customer</span>
+                                </td>
+
+                                <td>{{users.mobile}}</td>
+                                <td>{{users.wallet}}</td>
+                                <td>
+                                    <button size="tiny" *ngIf="users.status==0" type="button" nbButton
+                                        status="danger">Inactive
+                                    </button>
+                                    <button size="tiny" *ngIf="users.status==1" type="button" nbButton
+                                        status="success">Active
+                                    </button>
+                                </td>
+                                <td>
+
+                                    <button size="tiny" nbButton status="warning"
+                                        (click)="credit(dialog,'debit',users._id)">Debit
+                                    </button>
+
+                                    <button size="tiny" nbButton status="info"
+                                        (click)="credit(dialog,'credit',users._id)">Credit
+                                    </button>
+
+                                </td>
+                                <td>
+                                    <button size="tiny" nbButton [routerLink]="['/wallet/transaction',users._id]"
+                                        status="primary">Transaction </button>
+
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+            </nb-tab>
+        </nb-tabset>
+
+
+    </nb-card-body>
+</nb-card>
+
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <form #newForm="ngForm" (ngSubmit)="newForm.valid && save(newForm.value)" class="form-horizontal">
+        <nb-card>
+            <nb-card-header>{{paymentType | uppercase}} Amount</nb-card-header>
+            <nb-card-body>
+                <p>Transfer the amount to user</p>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+
+                    <input type="text" name="amount" [(ngModel)]="amount" #amount1="ngModel" nbInput fullWidth
+                        placeholder="Enter Amount" autocomplete="off" required maxlength="6" pattern="^[1-9]\d*$"
+                        onkeydown="return event.keyCode !== 190" autocomplete="off"
+                        (keydown.space)="$event.preventDefault();">
+                    <div *ngIf="amount1.invalid && (amount1.dirty || amount1.touched)  || newForm.submitted">
+                        <span class="error" *ngIf="amount1.hasError('required')">Amount is required</span>
+                        <span class="error" *ngIf="amount1.hasError('pattern')">Invalid type of amount</span>
+                        <span class="error" *ngIf="amount1.hasError('maxlength')">Maximun limit is 6 character</span>
+                    </div>
+                </div>
+            </nb-card-body>
+            <nb-card-footer>
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-3">
+                        <button type="submit" nbButton [disabled]="!amount && newForm.inValid"
+                            status="success">Save</button>
+                        <button type="button" nbButton (click)="ref.close()" status="danger">Close</button>
+                    </div>
+                </div>
+            </nb-card-footer>
+        </nb-card>
+    </form>
+</ng-template>

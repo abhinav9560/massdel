@@ -1,0 +1,51 @@
+<div class="header-container">
+  <div class="logo-container">
+    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </a>
+    <div class="text-center" (click)="goTo()">
+      <img src="/assets/logo.png" style="width: 64%;" alt="">
+     </div>
+    <!-- <a class="logo" href="#" (click)="navigateHome()">Admin-<span>Panel</span></a> -->
+  </div>
+</div>
+
+<div class="header-container">
+  <div class="notification">
+    <!-- <a>
+      <div class="notBtn" (click)="openBox()">
+        <div [ngClass]="{number: showDot}"></div>
+        <i class="fas fa-bell"></i>
+        <div class="box" [ngClass]="{boxOpen: openBox1}">
+          <div class="display">
+            <div class="nothing">
+              <i class="fas fa-child stick"></i>
+              <div class="cent">Looks Like your all caught up!</div>
+            </div>
+            <div class="cont">
+              <div class="sec" *ngFor="let not of notificationData">
+                <div [routerLink]="['/booking']" class="txt">{{not.title}}</div>
+                <hr style="padding: 0px;margin: 0px;">
+              </div>
+                <div class="sec" style=" 
+                bottom: -155px;
+                position: absolute;
+                text-align: center;
+                width: 100%;
+                background: #cac4c4;
+                ">
+                <h6 class="text-center"> See All</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a> -->
+  </div>
+  <nb-actions size="small">
+    <nb-action class="user-action" *nbIsGranted="['view', 'user']">
+      <nb-user [nbContextMenu]="userMenu" [name]="user?.name" nbContextMenuTag="my-context-menu">
+      </nb-user>
+    </nb-action>
+  </nb-actions>
+</div>

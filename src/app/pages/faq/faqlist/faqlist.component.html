@@ -1,0 +1,93 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>Faq Table <nb-icon icon="person-outline"></nb-icon>
+                </h5>
+            </div>
+            <div class="col-lg-6">
+                <button class="float-right" size="small" [routerLink]="['/faq/add']" nbButton status="info">Add
+                    <nb-icon icon="plus-circle-outline"></nb-icon>
+                </button>
+            </div>
+        </div>
+        <!-- style="margin-top: 8px;" -->
+        <div class="row mt-3">
+            <div class="col-lg-5">
+                <nb-form-field>
+                    <!-- <form  #newUserForm="ngForm" (ngSubmit)="!newUserForm.invalid && searchEvent(searchItem.item)"> -->
+                    <input [(ngModel)]="searchItem.item" (keyup)="searchEvent(searchItem.item)" required
+                        #search_item="ngModel" name="search_item" type="text" nbInput placeholder="Type to Search in Question">
+
+                    <!-- </form>  -->
+                </nb-form-field>
+            </div>
+            <div class="col-lg-5">
+
+            </div>
+
+            <div class="col-lg-1">
+                <!-- <button type="button" nbButton (click)="reset()">
+                    Reset
+                </button> -->
+            </div>
+        </div>
+
+
+    </nb-card-header>
+    <nb-card-body>
+        <div class="box-body">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr class="success">
+                        <th>S.No</th>
+                        <th>Question (English)</th>
+                        <th>Question (Aramaic)</th>
+                        <th>Answer (English)</th>
+                        <th>Answer (Aramaic)</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let users of data.data | paginate: { itemsPerPage: 8, currentPage:data.pageNo,totalItems:data.totalCount };let i = index">
+                        <td>
+                            {{data.size *(data.pageNo-1)+i+1}}
+                        </td>
+                        <td> {{ users.question_english.length > 10 ? users.question_english.substring(0,10)+"..." : users.question_english}}
+                        </td>
+                        <td>
+                            {{ users.question_aramaic.length > 10 ? users.question_aramaic.substring(0,10)+"..." : users.question_aramaic}}
+                        </td>
+                        <td>
+                            {{ users.answer_english.length > 10 ? users.answer_english.substring(0,10)+"..." : users.answer_english}}
+                        </td>
+                        <td>
+                            {{ users.answer_aramaic.length > 10 ? users.answer_aramaic.substring(0,10)+"..." : users.answer_aramaic}}
+                        </td>
+                        <td>
+                            <button size="tiny" *ngIf="users.status==0" (click)="ActiveUser(users._id,i)" type="button"
+                                nbButton status="danger">Inactive </button>
+                            <button size="tiny" *ngIf="users.status==1" (click)="InactiveUser(users._id,i)"
+                                type="button" nbButton status="success">Active </button>
+                        </td>
+                        <td>
+
+                            <button size="tiny" [routerLink]="['/faq/view',users._id]" nbButton status="warning">Edit
+                            </button>
+
+                            <button size="tiny" nbButton status="danger" (click)="deleteUser(users._id,i)">Delete
+                            </button>
+
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+
+    </nb-card-body>
+</nb-card>

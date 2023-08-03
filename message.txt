@@ -1,0 +1,115 @@
+Must contain a numeric value
+
+Must be minimum 9 character
+
+Must be maximum 19 character
+
+Please send countryCode
+
+Please send onlyMobile
+
+Please send user id
+
+Please send a valid otp
+
+Otp must be min 4 character
+
+Otp must be max 4 character
+
+OTP verified successfully
+
+Invalid OTP
+
+User not found
+
+Network Error
+
+OTP resent successfully
+
+User not found
+
+Password and confirm password do not match
+
+Already signup! Please login
+
+Sign Up successfully! Please Login
+
+Password updated successfully
+
+Mobile not registered
+
+You have not signup
+
+Login Successfully
+
+Password is incorrect
+
+Your account is deactivated by the admin
+
+Booking added successfully
+
+Booking canceled successfully
+
+Cancel limit of XX min is ended
+
+Wallet request created successfully
+
+Service Started successfully
+
+The provider has to start service
+
+Service Ended successfully and the price is calculated
+
+The provider has to end service
+
+Payment is processed, Provider will confirm it
+
+Payment Done
+
+Payment is cancelled by user
+
+Status updated successfully
+
+No address found
+
+Address added successfully
+
+Address updated successfully
+
+Something went wrong
+
+Default address can not be deleted
+
+Address deleted successfully
+
+Rating added successfully
+
+User not found
+
+Profile updated succesfully
+
+Notification setting updated succesfully
+
+Password changed successfully
+
+Old password incorrect
+
+New password and confirm password do not match
+
+Your request has been submitted
+
+Wallet updated successfully
+
+Logout successfully
+
+Service stated by provider customer will confirm it
+
+Service paused by provider
+
+Service ended by provider customer will confirm it
+
+Booking accepted successfully
+
+Status updated successfully
+
+Payment received successfully

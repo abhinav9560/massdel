@@ -1,0 +1,126 @@
+<nb-card>
+    <nb-card-header *ngIf="!id">Add Sub category</nb-card-header>
+    <nb-card-header *ngIf="id">Edit Sub category</nb-card-header>
+    <nb-card-body>
+        <form #newForm="ngForm" (ngSubmit)="newForm.valid && userSubmit(newForm.value)" class="form-horizontal">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+
+
+                    <div class="form-group">
+                        <nb-select placeholder="Select Category" name="category" [(ngModel)]="userData.category" #category="ngModel" required fullWidth>
+                            <nb-option *ngFor="let cat of categoryArray" value="{{cat._id}}">{{cat.name_english}} - {{cat.name_aramaic}}</nb-option>
+                        </nb-select>
+                        <div *ngIf="category.invalid && (category.dirty || category.touched) || newForm.submitted">
+                            <span class="error" *ngIf="category.hasError('required')">Category is required</span>
+                        </div>
+                    </div>
+
+
+                
+                    <div class="form-group">
+                        <label for="name">Name (English)</label>
+                        <input type="text" name="name_english" [(ngModel)]="userData.name_english" #name_english="ngModel" nbInput fullWidth
+                            placeholder="Name (English)" required minlength="3" maxlength="50" pattern="^[a-zA-Z_ ]+$">
+                        <div *ngIf="name_english.invalid && (name_english.dirty || name_english.touched) || newForm.submitted">
+                            <span class="error" *ngIf="name_english.hasError('required')">Name (English) is required</span>
+                            <span class="error" *ngIf="name_english.hasError('pattern')">Invalid Name (English)</span>
+                            <span class="error" *ngIf="name_english.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="name_english.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Name (Aramaic)</label>
+                        <input type="text" name="name_aramaic" [(ngModel)]="userData.name_aramaic" #name_aramaic="ngModel" nbInput fullWidth
+                            placeholder="Name (Aramaic)" required minlength="3" maxlength="50" >
+                        <div *ngIf="name_aramaic.invalid && (name_aramaic.dirty || name_aramaic.touched) || newForm.submitted">
+                            <span class="error" *ngIf="name_english.hasError('required')">Name (Aramaic) is required</span>
+                            <span class="error" *ngIf="name_english.hasError('pattern')">Invalid Name (Aramaic)</span>
+                            <span class="error" *ngIf="name_english.hasError('minlength')">Atleast 3 Char</span>
+                            <span class="error" *ngIf="name_english.hasError('maxlength')">Max 50 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="minRate">Min Rate</label>
+                        <input type="text" name="minRate" [(ngModel)]="userData.minRate" #minRate="ngModel" nbInput fullWidth
+                            placeholder="Min Rate" required maxlength="6" pattern="^[1-9]\d*$" onkeydown="return event.keyCode !== 190" autocomplete="off" (keydown.space)="$event.preventDefault();">
+                        <div *ngIf="minRate.invalid && (minRate.dirty || minRate.touched) || newForm.submitted">
+                            <span class="error" *ngIf="minRate.hasError('required')">Min Rate is required</span>
+                            <span class="error" *ngIf="minRate.hasError('pattern')">Invalid Min Rate</span>
+                            <span class="error" *ngIf="minRate.hasError('maxlength')">Max 6 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="minDuration">Min Duration</label>
+                        <input type="text" name="minDuration" [(ngModel)]="userData.minDuration" #minDuration="ngModel" nbInput fullWidth
+                            placeholder="Min Duration" required maxlength="6" pattern="^[1-9]\d*$" onkeydown="return event.keyCode !== 190" autocomplete="off" (keydown.space)="$event.preventDefault();">
+                        <div *ngIf="minDuration.invalid && (minDuration.dirty || minDuration.touched) || newForm.submitted">
+                            <span class="error" *ngIf="minDuration.hasError('required')">Min Duration is required</span>
+                            <span class="error" *ngIf="minDuration.hasError('pattern')">InvalidMin Duration</span>
+                            <span class="error" *ngIf="minDuration.hasError('maxlength')">Max 6 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="softLimit">Soft Limit</label>
+                        <input type="text" name="softLimit" [(ngModel)]="userData.softLimit" #softLimit="ngModel" nbInput fullWidth
+                            placeholder="Soft Limit" required maxlength="6" pattern="^[1-9]\d*$" onkeydown="return event.keyCode !== 190" autocomplete="off" (keydown.space)="$event.preventDefault();">
+                        <div *ngIf="softLimit.invalid && (softLimit.dirty || softLimit.touched) || newForm.submitted">
+                            <span class="error" *ngIf="softLimit.hasError('required')">Soft Limit is required</span>
+                            <span class="error" *ngIf="softLimit.hasError('pattern')">InvalidSoft Limit</span>
+                            <span class="error" *ngIf="softLimit.hasError('maxlength')">Max 6 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hardLimit">Hard Limit</label>
+                        <input type="text" name="hardLimit" [(ngModel)]="userData.hardLimit" #hardLimit="ngModel" nbInput fullWidth
+                            placeholder="Hard Limit" required maxlength="6" pattern="^[1-9]\d*$" onkeydown="return event.keyCode !== 190" autocomplete="off" (keydown.space)="$event.preventDefault();">
+                        <div *ngIf="hardLimit.invalid && (hardLimit.dirty || hardLimit.touched) || newForm.submitted">
+                            <span class="error" *ngIf="hardLimit.hasError('required')">Hard Limit is required</span>
+                            <span class="error" *ngIf="hardLimit.hasError('pattern')">Invalid Hard Limit</span>
+                            <span class="error" *ngIf="hardLimit.hasError('maxlength')">Max 6 Char</span>
+                        </div>
+                    </div>
+                
+                    <div class="form-group" *ngIf="!userData.image">
+                        <label for="image">Image</label>
+                        <input type="file" name="image" [(ngModel)]="image1" #image="ngModel" nbInput fullWidth
+                            placeholder="Name" required accept="image/x-png,image/jpeg,image/jpg"
+                            (change)="uploadFile($event)">
+                        <div *ngIf="image.invalid && (image.dirty || image.touched) || newForm.submitted">
+                            <span class="error" *ngIf="image.hasError('required')">Image is required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="userData.image">
+                        <label for="image">Image</label>
+                        <input type="file" name="image" [(ngModel)]="image1" #image="ngModel" nbInput fullWidth
+                            placeholder="Name" accept="image/x-png,image/jpeg,image/jpg"
+                            (change)="uploadFile($event)">
+                        <div *ngIf="image.invalid && (image.dirty || image.touched) || newForm.submitted">
+                            <span class="error" *ngIf="image.hasError('required')">Image is required</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <img *ngIf="userData.image" src="{{imageUrl + imageName}}" alt="User profile picture"
+                            class="img-thumbnail" style="width: 110px;">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <button type="submit" [disabled]="!newForm.valid || canNotEdit" nbButton status="success">Save </button>
+                    <button type="button" style="margin-left: 10px;" nbButton status="warning" (click)="goBack()">Go
+                        Back </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>

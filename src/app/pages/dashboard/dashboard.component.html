@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-lg-4">
+    <nb-card [routerLink]="['/customer']">
+      <nb-card-header>Total Customer</nb-card-header>
+      <nb-card-body>
+        <h4 class="text-center">{{userData.customer}}</h4>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-4">
+    <nb-card [routerLink]="['/service-provider']">
+      <nb-card-header>Total Provider</nb-card-header>
+      <nb-card-body>
+        <h4 class="text-center">{{userData.provider}}</h4>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-4">
+    <nb-card [routerLink]="['/booking']">
+      <nb-card-header>Total Booking</nb-card-header>
+      <nb-card-body>
+        <h4 class="text-center">{{userData.booking}}</h4>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<div>
+  <div class="row">
+    <div class="col-lg-8">
+      <h4>Graph</h4>
+    </div>
+    <div class="col-lg-4">
+      <div class="form-group">
+        <!-- <label for="year">Select Year</label> -->
+        <select name="year" [(ngModel)]="year" (ngModelChange)="yearChange()" id="year" class="form-control">
+          <option disabled>Select Year</option>
+          <option *ngFor="let y of yearArray" value="{{y}}">{{y}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="display: block;background-color: white;" *ngIf="showGraph">
+      <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+        [legend]="barChartLegend" [chartType]="barChartType" height="100px">
+      </canvas>
+    </div>
+  </div>
+</div>

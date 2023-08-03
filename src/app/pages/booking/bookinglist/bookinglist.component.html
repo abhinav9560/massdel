@@ -1,0 +1,153 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>Booking Table <nb-icon icon="award-outline"></nb-icon>
+                </h5>
+            </div>
+            <div class="col-lg-6">
+                <button class="float-right" size="small" [routerLink]="['/booking/add']" nbButton status="info">Add Booking
+                    <nb-icon icon="plus-circle-outline"></nb-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-lg-3">
+                <nb-form-field>
+                    <label for="duration">Search</label>
+                    <input [(ngModel)]="searchItem.item" (keyup)="searchEvent(searchItem.item)" required
+                        #search_item="ngModel" name="search_item" type="text" nbInput placeholder="Type to Search">
+
+                </nb-form-field>
+            </div>
+            <div class="col-lg-4">
+                <!-- <nb-form-field *ngIf="duration != '5'">
+                    <label for="duration">Duration</label>
+                <nb-select fullWidth placeholder="Select Showcase" [(selected)]="duration" (selectedChange)="filterChange($event)">
+                    <nb-option value="0">Today</nb-option>
+                    <nb-option value="1">This Week</nb-option>
+                    <nb-option value="2">This Month</nb-option>
+                    <nb-option value="3">This Quarter</nb-option>
+                    <nb-option value="4">This Year</nb-option>
+                    <nb-option value="5">Date Range</nb-option>
+                  </nb-select>
+                </nb-form-field> -->
+
+                <nb-form-field>
+                    <div>
+                        <input nbInput readonly name="start" [(ngModel)]="dateRange.start" placeholder="Start Date"
+                            [nbDatepicker]="dateTimePicker1" style="width: 30%;">
+                        <nb-datepicker #dateTimePicker1></nb-datepicker>
+
+                        <input nbInput readonly name="end" [(ngModel)]="dateRange.end" placeholder="End Date"
+                            [nbDatepicker]="dateTimePicker2" style="width: 30%;">
+                        <nb-datepicker #dateTimePicker2></nb-datepicker>
+
+                        <button type="submit" nbButton (click)="dateRangeChange()" style="margin-bottom: 4px;">
+                            Search
+                        </button>
+                    </div>
+                </nb-form-field>
+            </div>
+
+            <div class="col-lg-4">
+                <nb-form-field>
+                    <label for="duration">Status</label>
+                    <nb-select fullWidth placeholder="Select Status " [(selected)]="statusFilter"
+                        (selectedChange)="filterChange($event)">
+                        <nb-option value="8">All</nb-option>
+                        <nb-option value="0">Pending</nb-option>
+                        <nb-option value="1">Accpeted</nb-option>
+                        <nb-option value="2">Rejected</nb-option>
+                        <nb-option value="3">Cancelled</nb-option>
+                        <nb-option value="4">Services initiated</nb-option>
+                        <nb-option value="5">Service Start</nb-option>
+                        <nb-option value="6">Service Finished</nb-option>
+                        <nb-option value="7">Completed</nb-option>
+
+                    </nb-select>
+                </nb-form-field>
+            </div>
+
+            <div class="col-lg-1">
+                <label for="duration">Reset</label>
+                <button type="button" nbButton (click)="reset()">
+                    Reset
+                </button>
+            </div>
+
+        </div>
+
+
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="box-body">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr class="success">
+                        <th>S.No</th>
+                        <th>Booking Id</th>
+                        <th>Customer Name</th>
+                        <th>Customer Phone</th>
+                        <th>Provider Name</th>
+                        <th>Provider Phone</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let users of data.data | paginate: { itemsPerPage: 8, currentPage:data.pageNo,totalItems:data.totalCount };let i = index">
+                        <td>
+                            {{data.size *(data.pageNo-1)+i+1}}
+                        </td>
+                        <td>{{users?.bookingId }}</td>
+                        <td>{{users?.customerId?.name }}</td>
+                        <td>{{users?.customerId?.mobile }}</td>
+
+                        <td>{{users?.providerId?.name?users?.providerId?.name:'--' }}</td>
+                        <td>{{users?.providerId?.mobile?users?.providerId?.mobile:'--' }}</td>
+
+                        <td>
+                            <button size="tiny" hero *ngIf="users.status==0" type="button" nbButton
+                                status="warning">Pending</button>
+                            <button size="tiny" hero *ngIf="users.status==1" type="button" nbButton
+                                status="primary">Accpeted</button>
+                            <button size="tiny" hero *ngIf="users.status==2" type="button" nbButton
+                                status="danger">Rejected</button>
+                            <button size="tiny" hero *ngIf="users.status==3" type="button" nbButton
+                                status="danger">Cancelled</button>
+                            <button size="tiny" hero *ngIf="users.status==4" type="button" nbButton
+                                status="info">Service initiated</button>
+                            <button size="tiny" hero *ngIf="users.status==5" type="button" nbButton
+                                status="info">Service Start</button>
+                            <button size="tiny" hero *ngIf="users.status==6" type="button" nbButton
+                                status="info">Service Finished</button>
+                            <button size="tiny" hero *ngIf="users.status==7" type="button" nbButton
+                                status="success">Completed</button>
+                        </td>
+                        <td>
+
+                            <button size="tiny" [routerLink]="['/booking/view',users._id]" nbButton
+                                status="warning">View
+                            </button>
+
+                            <button size="tiny" hero type="button" nbButton (click)="deleteBooking(users._id)"
+                                status="danger">Delete</button>
+
+                            <button size="tiny" hero type="button" nbButton (click)="cancleBooking(users._id)"
+                                status="info">Cancle</button>
+
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+
+    </nb-card-body>
+</nb-card>

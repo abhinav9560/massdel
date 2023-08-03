@@ -1,0 +1,45 @@
+  
+  .form-control {
+    display: flex;
+    margin: 0.7rem -0.5rem;
+  }
+
+  .error{
+    color: red;
+    display: block;
+}
+
+// ::ng-deep .telephone{
+//   font-size: 0.9375rem;
+//   font-weight: 600;
+//   line-height: 1.5rem;
+//   padding: 0.4375rem 1rem;
+//   background-color: #f7f9fc;
+//   color: #222b45;
+//   width: 100%;
+//   transition-duration: 0.15s;
+//   transition-property: border, background-color, color, box-shadow;
+//   transition-timing-function: ease-in;
+// }
+
+
+// ::ng-deep .iti {
+//   display: block !important;
+// }
+
+// ::ng-deep .form-control {
+//   display: block  !important;
+//   border-style: none !important;
+//   background-color: #f7f9fc !important;
+//   border-color: #e4e9f2 !important;
+//   color: #222b45!important;
+// }
+
+// @import 'intl-tel-input/build/css/intlTelInput.css';
+
+
+// .iti__flag {background-image: url("intl-tel-input/build/img/flags.png");}
+ 
+// @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+//   .iti__flag {background-image: url("intl-tel-input/build/img/flags@2x.png");}
+// }

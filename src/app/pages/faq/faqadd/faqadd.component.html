@@ -1,0 +1,78 @@
+<nb-card>
+    <nb-card-header *ngIf="!id">Add FAQ</nb-card-header>
+    <nb-card-header *ngIf="id">Edit FAQ</nb-card-header>
+    <nb-card-body>
+        <form #newForm="ngForm" (ngSubmit)="newForm.valid && userSubmit(newForm.value)" class="form-horizontal">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+
+                    <div class="form-group">
+                        <label for="question_english">Question (English)</label>
+                        <input type="text" name="question_english" [(ngModel)]="userData.question_english"
+                            #question_english="ngModel" nbInput fullWidth placeholder="Question (English)" required minlength="3" maxlength="120">
+                        <div
+                            *ngIf="question_english.invalid && (question_english.dirty || question_english.touched) || newForm.submitted">
+                                <span class="error" *ngIf="question_english.hasError('required')">Question (English) is required</span>
+                                <span class="error" *ngIf="question_english.hasError('minlength')">Atleast 3 Char</span>
+                                <span class="error" *ngIf="question_english.hasError('maxlength')">Max 120 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question_aramaic">Question (Aramaic)</label>
+                        <input type="text" name="question_aramaic" [(ngModel)]="userData.question_aramaic"
+                            #question_aramaic="ngModel" nbInput fullWidth placeholder="Question (Aramaic)" required minlength="3" maxlength="120">
+                        <div
+                            *ngIf="question_aramaic.invalid && (question_aramaic.dirty || question_aramaic.touched) || newForm.submitted">
+                            <span class="error" *ngIf="question_aramaic.hasError('required')">Question (Aramaic) is
+                                required</span>
+                                <span class="error" *ngIf="question_aramaic.hasError('minlength')">Atleast 3 Char</span>
+                                <span class="error" *ngIf="question_aramaic.hasError('maxlength')">Max 120 Char</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="answer_english">Answer (English)</label>
+                        <!-- <angular-editor name="answer_english" [(ngModel)]="userData.answer_english" style="border: none;"
+                            #answer_english="ngModel" nbInput fullWidth placeholder="Answer (English)" required minlength="3" maxlength="50">
+                        </angular-editor> -->
+                        <textarea cols="30" rows="3" name="answer_english" [(ngModel)]="userData.answer_english"
+                        #answer_english="ngModel" nbInput fullWidth placeholder="Answer (English)" required minlength="3" maxlength="1000"></textarea>
+                        <div
+                            *ngIf="answer_english.invalid && (answer_english.dirty || answer_english.touched) || newForm.submitted">
+                                <span class="error" *ngIf="answer_english.hasError('required')">Answer (English) is required</span>
+                                <span class="error" *ngIf="answer_english.hasError('minlength')">Atleast 3 Char</span>
+                                <span class="error" *ngIf="answer_english.hasError('maxlength')">Max 1000 Char</span>
+                        </div>
+                    </div>
+
+                
+
+                    <div class="form-group">
+                        <label for="answer_aramaic">Answer (Aramaic)</label>
+                        <!-- <angular-editor name="answer_aramaic" [(ngModel)]="userData.answer_aramaic" style="border: none;"
+                            #answer_aramaic="ngModel" nbInput fullWidth placeholder="Answer (Aramaic)" required minlength="3" maxlength="1000">
+                        </angular-editor> -->
+                        <textarea cols="30" rows="3" name="answer_aramaic" [(ngModel)]="userData.answer_aramaic"   #answer_aramaic="ngModel" nbInput fullWidth placeholder="Answer (Aramaic)" required minlength="3" maxlength="1000"></textarea>
+                        <div
+                            *ngIf="answer_aramaic.invalid && (answer_aramaic.dirty || answer_aramaic.touched) || newForm.submitted">
+                            <span class="error" *ngIf="answer_aramaic.hasError('required')">Answer (Aramaic) is
+                                required</span>
+                                <span class="error" *ngIf="answer_aramaic.hasError('minlength')">Atleast 3 Char</span>
+                                <span class="error" *ngIf="answer_aramaic.hasError('maxlength')">Max 1000 Char</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <button type="submit" [disabled]="!newForm.valid" nbButton status="success">Save </button>
+                    <button type="button" style="margin-left: 10px;" nbButton status="warning" (click)="goBack()">Go
+                        Back </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>

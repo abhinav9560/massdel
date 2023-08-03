@@ -1,0 +1,23 @@
+<nb-card>
+    <nb-card-header>
+        Bank Accounts Details
+    </nb-card-header>
+    <nb-card-body>
+
+        <div *ngIf="data && data.length" class="row">
+            <div class="col-lg-4 box" *ngFor="let item of data">
+                <p>Type: <span>{{item.type}}</span> </p>
+                <p>Account Holder Name: <span>{{item.name}}</span> </p>
+                <p>Account No: <span>{{item.accountNo}}</span> </p>
+                <p>Bank Name: <span>{{item.bankName}}</span> </p>
+                <p>Ifsc Code: <span>{{item.ifscCode}}</span> </p>
+            </div>
+        </div>
+
+        <div *ngIf="data.length == 0">
+            <h5>No Data Found</h5>
+        </div>
+
+
+    </nb-card-body>
+</nb-card>

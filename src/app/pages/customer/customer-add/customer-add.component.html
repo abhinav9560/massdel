@@ -1,0 +1,136 @@
+<nb-card>
+    <nb-card-header *ngIf="!id">Add Customer</nb-card-header>
+    <nb-card-header *ngIf="id">Edit Customer</nb-card-header>
+    <nb-card-body>
+        <form #newForm="ngForm" (ngSubmit)="newForm.valid && userSubmit(newForm.value)" class="form-horizontal">
+            <div class="row">
+                <div class="col-lg-4">
+
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" [(ngModel)]="userData.name" #name="ngModel" nbInput fullWidth
+                            placeholder="Name" minlength="3" maxlength="55" pattern="^[a-zA-Z0-9_ ]+$" required>
+                        <div *ngIf="name.invalid && (name.dirty || name.touched) || newForm.submitted">
+                            <span class="error" *ngIf="name.hasError('required')">Name is
+                                required.</span>
+                            <span class="error" *ngIf="name.hasError('pattern')">Invalid format name.</span>
+                            <span class="error text-danger" *ngIf="name.hasError('minlength')"> Name
+                                should be at least 3 characters long.</span>
+                            <span class="error text-danger" *ngIf="name.hasError('maxlength')"> Name
+                                should not exceed 55 characters.</span>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" name="email" [(ngModel)]="userData.email" #email="ngModel" nbInput fullWidth
+                            placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                        <div *ngIf="email.invalid && (email.dirty || email.touched) || newForm.submitted">
+                            <span class="error" *ngIf="email.hasError('required')">Email is required</span>
+                            <span class="error" *ngIf="email.hasError('pattern')">Enter a valid email</span>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="mobile">Mobile</label>
+                        <input type="tel" name="mobile" id="mobile" nbInput [(ngModel)]="mobile1" #mobile5="ngModel"
+                            fullWidth placeholder="Mobile" minlength="7" maxlength="15" pattern="[0-9]*"
+                            autocomplete="off" (keydown.space)="$event.preventDefault();" required>
+                        <div *ngIf="mobile5.invalid && (mobile5.dirty || mobile5.touched) || newForm.submitted">
+                            <span class="error" *ngIf="mobile5.hasError('required')">Mobile is required</span>
+                            <span class="error" *ngIf="mobile5.hasError('minlength')">Mobile should be at least 7
+                                character</span>
+                            <span class="error" *ngIf="mobile5.hasError('maxlength')">Mobile should be most 15
+                                character</span>
+                            <span class="error" *ngIf="mobile5.hasError('pattern')">Invalid phone</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <nb-select name="city" [(ngModel)]="userData.city" [(selected)]="userData.city" #city="ngModel"
+                            placeholder="City" fullWidth required>
+                            <nb-option *ngFor="let doc of cityList" [value]="doc._id">{{doc.name_english}}</nb-option>
+                        </nb-select>
+                        <div *ngIf="city.invalid && (city.dirty || city.touched) || newForm.submitted">
+                            <span class="error" *ngIf="city.hasError('required')">City is required</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                            <nb-select name="city" [(ngModel)]="userData.city" [(selected)]="userData.city" #city="ngModel" placeholder="City"  fullWidth required>
+                                <nb-option *ngFor="let doc of cityList" [value]="doc._id">{{doc.name_english}}</nb-option>
+                            </nb-select>
+                        <div *ngIf="city.invalid && (city.dirty || city.touched) || newForm.submitted">
+                            <span class="error" *ngIf="city.hasError('required')">City is required</span>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-lg-4">
+
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <input type="file" name="image" [(ngModel)]="image1" #image="ngModel" nbInput fullWidth
+                            placeholder="Name" accept="image/x-png,image/jpeg,image/jpg" (change)="uploadFile($event)">
+                    </div>
+
+                    <div class="m-10">
+                        <img *ngIf="userData.profilePicture" src="{{imageUrl + userData.profilePicture}}"
+                            alt="User profile picture" class="img-thumbnail" style="width: 110px;">
+                    </div>
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group" *ngIf="!id">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" [(ngModel)]="userData.password" #password="ngModel"
+                            nbInput fullWidth placeholder="Password" required
+                            pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$">
+                        <div *ngIf="password.invalid && (password.dirty || password.touched) || newForm.submitted">
+                            <span class="error" *ngIf="password.hasError('required')">Password is required</span>
+                            <span class="error" *ngIf="password.hasError('pattern')">PPassword Should have 1
+                                Number 1 Capital 1 Small letter and min 6 length </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-group" *ngIf="!id">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <nb-form-field>
+                            <input type="password" name="confirmPassword" [(ngModel)]="userData.confirmPassword"
+                                (ngModelChange)="check($event)" #confirmPassword="ngModel" nbInput fullWidth
+                                placeholder="Confirm Password" required validateEqual="password">
+                            <div
+                                *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched) || newForm.submitted">
+                                <span class="error" *ngIf="confirmPassword.hasError('required')">Confirm password is
+                                    required</span>
+                            </div>
+                            <span class="error" *ngIf="donotMatch">Password and
+                                Confirm password do not match </span>
+                        </nb-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <button nbButton status="success" [disabled]="!newForm.valid && canEdit || donotMatch" type="submit">Save
+                    </button>
+                    <button style="margin-left: 10px;" type="button" nbButton status="warning" (click)="goBack()">Go
+                        Back </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>
